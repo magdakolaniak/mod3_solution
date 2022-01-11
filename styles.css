@@ -8,7 +8,19 @@ body {
 #list2 {
   margin-left: 40px;
 }
-
+#searching-button {
+  background-color: rgb(96, 177, 96);
+  font-size: 14px;
+}
 .error {
   color: red;
+}
+#remove-button {
+  background-color: rgb(204, 91, 91);
+  font-size: 14px;
+  margin-left: 20px;
+}
+li {
+  margin-top: 15px;
+  margin-bottom: 5px;
 }

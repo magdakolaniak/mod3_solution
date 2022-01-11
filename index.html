@@ -5,21 +5,23 @@
     <script src="angular.min.js"></script>
     <script src="app.js"></script>
     <link rel="stylesheet" href="styles.css">
-    <title>Using $http Service</title>
+    <title>Searching App</title>
   </head>
   <body>
-    <h1>Using $http Service</h1>
+    <h1>Searching App</h1>
 
     <div ng-controller='MenuAppController as menu'>
-      <h3>List of Menu Categories</h3>
+     
       <br></br>
-      <input type="text" ng-model = "menu.test"placeholder="menu.test">
-      <button ng-click="menu.NarrowIt(menu.test);">Narrow it down</button>
+      <input type="text" ng-model = "menu.test"placeholder="Type here">
+      <button id="searching-button"ng-click="menu.NarrowIt(menu.test);">Narrow it down for me!</button>
+       <h4>List of Found Items:</h4><br>
+      <div ng-if="menu.categories.length <=0">Nothing found!</div>
       
       <ul>
         <li ng-repeat="category in menu.categories | filter :test">
           
-          {{ category.name}}
+          {{ category.name}}<button id="remove-button"ng-click="menu.remove($index);">Don't want that</button>
         </li>
       </ul>
     </div>

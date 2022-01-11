@@ -10,7 +10,8 @@
   MenuAppController.$inject = ['MenuAppService'];
   function MenuAppController(MenuAppService) {
     var menu = this;
-    menu.test = 'hello';
+    menu.test = '';
+    menu.message = '';
     // var promise = MenuAppService.getMenuItems();
 
     // promise
@@ -23,21 +24,36 @@
     //   });
 
     menu.NarrowIt = function (query) {
-      var promise = MenuAppService.narrowDown(query);
+      console.log(menu.test.length);
+      if (menu.test.length === 0) {
+        menu.message = 'Nothing found';
+        menu.categories = [];
+      } else {
+        var promise = MenuAppService.narrowDown(query);
 
-      promise
-        .then(function (response) {
-          let all = response.data.menu_items;
-          let results = all.filter(
-            (item) =>
-              item.name.toLowerCase().indexOf(menu.test.toLowerCase()) != -1
-          );
-          console.log(results);
-          menu.categories = results;
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+        promise
+          .then(function (response) {
+            let all = response.data.menu_items;
+            console.log(all);
+
+            let results = all.filter(
+              (item) =>
+                item.description
+                  .toLowerCase()
+                  .indexOf(menu.test.toLowerCase()) != -1
+            );
+            console.log(results);
+            menu.categories = results;
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+    };
+
+    menu.remove = function (index) {
+      menu.categories.splice(index, 1);
+      return menu.categories;
     };
   }
 
@@ -45,14 +61,14 @@
   function MenuAppService($http, ApiBasePath) {
     var service = this;
 
-    service.getMenuItems = function () {
-      var response = $http({
-        method: 'GET',
-        url: ApiBasePath + '/menu_items.json',
-      });
+    // service.getMenuItems = function () {
+    //   var response = $http({
+    //     method: 'GET',
+    //     url: ApiBasePath + '/menu_items.json',
+    //   });
 
-      return response;
-    };
+    //   return response;
+    // };
 
     service.narrowDown = function (query) {
       var response = $http({
